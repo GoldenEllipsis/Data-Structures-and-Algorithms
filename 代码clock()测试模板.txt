@@ -1,0 +1,38 @@
+//clock_tick模板 
+#include<iostream>   
+using namespace std;
+#include <time.h> 
+#define RUN_N 100 
+
+clock_t start,stop;//clock_t是clock()的返回类型 
+//clock_t类型实际上是个长整型数 
+double duration;//以秒为单位 
+
+//被测函数 
+void print(int n)
+{
+	if(n)
+	{
+		print(n-1);
+		printf("%d ",n);
+	}
+	return;
+}
+
+int main()
+{
+	start = clock();//准备工作，不在测试范围的写在此句之前 
+	
+	//function();//被测函数
+	for(int i=0;i<RUN_N;++i)//重复测试 
+	{
+		print(1000);
+	}
+	//////////////// 
+	 
+	stop = clock();//其他工作，不在测试范围的写在此句之后 
+	duration = (double)(stop-start)/CLK_TCK;//运行一次的时间：再/RUN_N;
+	cout<<duration;
+	//cout<<CLK_TCK;// 常数 CLK_TCK==1000 
+    return 0;
+}

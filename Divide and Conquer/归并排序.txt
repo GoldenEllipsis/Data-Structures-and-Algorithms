@@ -1,0 +1,59 @@
+归并排序 
+
+数组排序任务可以如下完成：  
+1） 把前一半排序  
+2)  把后一半排序  
+3)  把两半归并到一个新的有序数组，然后再拷贝回 原数组，排序完成。 
+
+-----------------------------------------------------------
+
+我们首先把一个未排序的序列从中间分割成2部分，再把2部分分成4部分，
+依次分割下去，直到分割成一个一个的数据，再把这些数据两两归并到一起，
+使之有序，不停的归并，最后成为一个排好序的序列。
+
+------------------------------------------------------------
+
+#include <iostream> 
+using namespace std; 
+
+void Merge(int a[],int s,int m, int e,int tmp[])  
+{
+	int pb = 0;  //tmp指针 
+	int p1 = s,p2 = m+1;//前半部、后半部指针 	
+	//归并到 tmp
+	while( p1 <= m && p2 <= e) 
+	{    
+		if( a[p1] <= a[p2])  tmp[pb++] = a[p1++];   
+		else  tmp[pb++] = a[p2++];  
+	} 
+	//前半部剩余 
+	while( p1 <= m)  tmp[pb++] = a[p1++]; 
+	//后半部剩余  
+	while( p2 <= e)  tmp[pb++] = a[p2++];
+	//拷贝回原数组a  
+	for(int i = 0;i < e-s+1; ++i)   a[s+i] = tmp[i]; 
+} 
+
+void MergeSort(int a[],int s,int e,int  tmp[]) 
+{  
+	if( s < e) 
+	{   
+		int m = s + (e-s)/2;   
+		MergeSort(a,s,m,tmp);   
+		MergeSort(a,m+1,e,tmp);   
+		Merge(a,s,m,e,tmp);  
+	} 
+} 
+
+int a[10] = { 13,27,19,2,8,12,2,8,30,89}; 
+int b[10];
+
+int main() 
+{  
+	int size = sizeof(a)/sizeof(int);  
+	MergeSort(a,0,size-1,b); 
+	for(int i = 0;i < size; ++i)  cout << a[i] << ","; 
+	cout << endl; 
+	  
+	return 0; 
+} 
